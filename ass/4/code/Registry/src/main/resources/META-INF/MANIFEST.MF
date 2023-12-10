@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: RegistryComponent
+Class-Path: apiguardian-api-1.1.0.jar junit-platform-commons-1.5.2.jar o
+ pentest4j-1.2.0.jar junit-jupiter-api-5.5.2.jar
+

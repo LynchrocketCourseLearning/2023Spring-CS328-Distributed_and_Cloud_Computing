@@ -1,0 +1,236 @@
+ 
+file: mat_v1, process: 2
+Done in 0.372626 seconds.
+Correct
+
+
+file: mat_v1, process: 4
+Done in 0.201945 seconds.
+Correct
+
+
+file: mat_v1, process: 8
+Done in 0.207485 seconds.
+Correct
+
+
+file: mat_v1, process: 16
+Done in 0.288931 seconds.
+Correct
+
+
+file: mat_v1, process: 32
+Done in 0.250144 seconds.
+Correct
+
+
+file: mat_v2, process: 1
+Done in 0.477210 seconds.
+Correct
+
+
+file: mat_v2, process: 2
+Done in 0.218272 seconds.
+Correct
+
+
+file: mat_v2, process: 4
+Done in 0.145762 seconds.
+Correct
+
+
+file: mat_v2, process: 8
+Done in 0.244012 seconds.
+Correct
+
+
+file: mat_v2, process: 16
+Done in 0.301524 seconds.
+Correct
+
+
+file: mat_v2, process: 32
+Done in 0.357883 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 1
+Done in 0.299547 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 2
+Done in 0.148688 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 4
+Done in 0.081822 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 8
+Done in 0.139796 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 16
+Done in 0.145832 seconds.
+Correct
+
+
+file: mat_cache_v2, process: 32
+Done in 0.312076 seconds.
+Correct
+
+
+file: mat_v3, process: 1
+Done in 0.429566 seconds.
+Correct
+
+
+file: mat_v3, process: 2
+Done in 0.204736 seconds.
+Correct
+
+
+file: mat_v3, process: 4
+Done in 0.163776 seconds.
+Correct
+
+
+file: mat_v3, process: 8
+Done in 0.196819 seconds.
+Correct
+
+
+file: mat_v3, process: 16
+Done in 0.227806 seconds.
+Correct
+
+
+file: mat_v3, process: 32
+Done in 0.303504 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 1
+Done in 0.302921 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 2
+Done in 0.161382 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 4
+Done in 0.087980 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 8
+Done in 0.110111 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 16
+Done in 0.132444 seconds.
+Correct
+
+
+file: mat_cache_v3, process: 32
+Done in 0.164735 seconds.
+Correct
+
+
+file: mat_v4, process: 1
+Done in 0.096637 seconds.
+Correct
+
+
+file: mat_v4, process: 2
+Done in 0.082969 seconds.
+Correct
+
+
+file: mat_v4, process: 4
+Done in 0.041347 seconds.
+Correct
+
+
+file: mat_v4, process: 8
+Done in 0.054966 seconds.
+Correct
+
+
+file: mat_v4, process: 16
+Done in 0.099234 seconds.
+Correct
+
+
+file: mat_v4, process: 32
+Done in 0.132245 seconds.
+Correct
+
+
+file: mat_v5, process: 1
+Done in 0.076865 seconds.
+Correct
+
+
+file: mat_v5, process: 2
+Done in 0.040513 seconds.
+Correct
+
+
+file: mat_v5, process: 4
+Done in 0.044641 seconds.
+Correct
+
+
+file: mat_v5, process: 8
+Done in 0.047725 seconds.
+Correct
+
+
+file: mat_v5, process: 16
+Done in 0.056370 seconds.
+Correct
+
+
+file: mat_v5, process: 32
+Done in 0.075052 seconds.
+Correct
+
+
+file: mat_v6, process: 1
+Done in 0.073342 seconds.
+Correct
+
+
+file: mat_v6, process: 2
+Done in 0.038860 seconds.
+Correct
+
+
+file: mat_v6, process: 4
+Done in 0.055514 seconds.
+Correct
+
+
+file: mat_v6, process: 8
+Done in 0.068059 seconds.
+Correct
+
+
+file: mat_v6, process: 16
+Done in 0.051610 seconds.
+Correct
+
+
+file: mat_v6, process: 32
+Done in 0.064341 seconds.
+Correct
+
+

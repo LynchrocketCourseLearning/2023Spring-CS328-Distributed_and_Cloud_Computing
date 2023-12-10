@@ -1,0 +1,151 @@
+/**
+ * Matrix multiplication with OpenMPI version 2 - cache
+ * In this version, it uses MPI_Scatterv and MPI_Gattherv to distribute the segments of matrix and gather the calculation result.
+ * The residual matrix segment will be all distributed to the last worker.
+ */
+
+#include <mpi.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAT_SIZE 500
+#define ROOT 0
+#define EPS 1e-6
+#define fabs(a) (((a) > 0) ? (a) : -(a))
+#define min(a, b) (((a) > (b)) ? (b) : (a))
+// in row-major order
+#define A(i, j) a[(i)*MAT_SIZE + (j)]
+#define B(i, j) b[(i)*MAT_SIZE + (j)]
+#define C(i, j) c[(i)*MAT_SIZE + (j)]
+
+void brute_force_matmul(double mat1[MAT_SIZE * MAT_SIZE],
+                        double mat2[MAT_SIZE * MAT_SIZE],
+                        double res[MAT_SIZE][MAT_SIZE])
+{
+   /* matrix multiplication of mat1 and mat2, store the result in res */
+   for (int i = 0; i < MAT_SIZE; ++i)
+   {
+      for (int j = 0; j < MAT_SIZE; ++j)
+      {
+         res[i][j] = 0;
+         for (int k = 0; k < MAT_SIZE; ++k)
+         {
+            res[i][j] += mat1[i * MAT_SIZE + k] * mat2[k * MAT_SIZE + j];
+         }
+      }
+   }
+}
+
+int main(int argc, char *argv[])
+{
+   int rank;
+   int mpiSize;
+   double a[MAT_SIZE * MAT_SIZE], /* matrix A to be multiplied */
+       b[MAT_SIZE * MAT_SIZE],    /* matrix B to be multiplied */
+       c[MAT_SIZE * MAT_SIZE],    /* result matrix C */
+       bfRes[MAT_SIZE][MAT_SIZE]; /* brute force result bfRes */
+
+   int worker_num,     /* number of workers */
+       rows,           /* number of rows for a worker */
+       redundant_rows; /* the redundant rows */
+
+   double start, finish; /* timer */
+
+   int *sendcounts, *displs;
+
+   /* You need to intialize MPI here */
+   MPI_Init(&argc, &argv);
+   MPI_Comm_size(MPI_COMM_WORLD, &mpiSize);
+   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+   /* retrieve some parameters */
+   worker_num = mpiSize;
+   rows = MAT_SIZE / worker_num;
+   redundant_rows = MAT_SIZE % worker_num;
+   sendcounts = (int *)malloc(sizeof(int) * worker_num);
+   displs = (int *)malloc(sizeof(int) * worker_num);
+   for (int i = 0; i < worker_num; i++)
+   {
+      displs[i] = (i * rows) * MAT_SIZE;
+      sendcounts[i] = rows * MAT_SIZE;
+   }
+   sendcounts[worker_num - 1] = (rows + redundant_rows) * MAT_SIZE;
+
+   if (rank == ROOT)
+   {
+      /* master */
+      /* First, fill some numbers into the matrix */
+      for (int i = 0, j = 0, k = 0; k < MAT_SIZE * MAT_SIZE;)
+      {
+         a[k] = i + j;
+         b[k] = i * j;
+         ++j;
+         ++k;
+         if (j == MAT_SIZE)
+         {
+            j = 0;
+            ++i;
+         }
+      }
+
+      /* Measure start time */
+      start = MPI_Wtime();
+   }
+
+   /* Send matrix data to the worker tasks */
+   MPI_Bcast(&b[0], MAT_SIZE * MAT_SIZE, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);                                                   // broadcast matrix b
+   MPI_Scatterv(&a[0], sendcounts, displs, MPI_DOUBLE, &a[displs[rank]], sendcounts[rank], MPI_DOUBLE, ROOT, MPI_COMM_WORLD); // scatter parts of matrix a to workers,
+
+   /* worker */
+   /* master itself as a worker */
+   int st_offset = displs[rank] / MAT_SIZE, ed_offset = (rank == worker_num - 1) ? MAT_SIZE : displs[rank] / MAT_SIZE + rows;
+   register double s;
+   for (int i = st_offset; i < ed_offset; ++i)
+   {
+      for (int k = 0; k < MAT_SIZE; ++k)
+      {
+         s = A(i, k);
+         for (int j = 0; j < MAT_SIZE; ++j)
+         {
+            C(i, j) += s * B(k, j);
+         }
+      }
+   }
+
+   /* Receive results from worker tasks */
+   MPI_Gatherv(&c[displs[rank]], (ed_offset - st_offset) * MAT_SIZE, MPI_DOUBLE, &c[0], sendcounts, displs, MPI_DOUBLE, ROOT, MPI_COMM_WORLD); // gather the data from workers
+
+   if (rank == ROOT)
+   {
+      /* Measure finish time */
+      finish = MPI_Wtime();
+      printf("Done in %f seconds.\n", finish - start);
+
+      /* Compare results with those from brute force */
+      brute_force_matmul(a, b, bfRes);
+      int flag = 1;
+      for (int i = 0; i < MAT_SIZE; ++i)
+      {
+         for (int j = 0; j < MAT_SIZE; ++j)
+         {
+            if (fabs(C(i, j) - bfRes[i][j]) > EPS)
+            {
+               flag = 0;
+               printf("%d %d %.20lf %.20lf\n", i, j, C(i, j), bfRes[i][j]);
+               break;
+            }
+         }
+         if (!flag)
+            break;
+      }
+      printf((flag) ? "Correct\n" : "Wrong\n");
+   }
+
+   /* Don't forget to finalize your MPI application */
+   free(sendcounts);
+   free(displs);
+
+   MPI_Finalize();
+
+   return 0;
+}

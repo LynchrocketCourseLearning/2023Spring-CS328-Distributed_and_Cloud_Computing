@@ -1,0 +1,31 @@
+version: '3'
+services:
+  registry:
+    image: 'lynchrocket/my-registry:0.0.1'
+    container_name: 'myrmi-registry'
+    ports:
+      - 1200:1200
+    environment:
+      RUN_COMPONENT: 'REGISTRY'
+  server:
+    image: 'lynchrocket/my-server:0.0.1'
+    container_name: 'myrmi-server'
+    ports:
+      - 1220:1220
+      - 43801:43801
+    depends_on:
+      - registry
+    environment:
+      RUN_COMPONENT: 'SERVER'
+  client:
+    image: 'lynchrocket/my-client:0.0.1'
+    container_name: 'myrmi-client'
+    ports:
+      - 1230:1230
+    volumes:
+      - ~/myrmi-root/Client/result:/client/result
+    depends_on:
+      - registry
+      - server
+    environment:
+      RUN_COMPONENT: 'CLIENT'

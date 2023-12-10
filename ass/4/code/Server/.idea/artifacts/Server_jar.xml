@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact name="Server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Server_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Server.jar">
+        <element id="module-output" name="Server" />
+      </element>
+      <element id="library" level="project" name="Maven: org.opentest4j:opentest4j:1.2.0" />
+      <element id="library" level="project" name="Maven: org.junit.jupiter:junit-jupiter-api:5.5.2" />
+      <element id="library" level="project" name="Maven: org.junit.platform:junit-platform-commons:1.5.2" />
+      <element id="library" level="project" name="Maven: org.apiguardian:apiguardian-api:1.1.0" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "myrmi.Info";
+option java_outer_classname = "ResultInfoProto";
+
+package myrmi.Info;
+message ResultInfo {
+  bytes result = 1;
+  bytes Exception = 2;
+  int32 status = 3;
+  int32 object_key = 4;
+}
